@@ -1,0 +1,21 @@
+---
+- name: deploying application into docker container
+  hosts: dev
+  become: yes
+  tasks:
+    - name: install python-pip
+      apt:
+        name: python-pip
+        state: present
+    - name: install docker-py
+      pip:
+        name: docker-py
+        state: present
+    - name: starting a docker container
+      docker_container:
+        name: dileepapp
+        image: dileepugrangi/dileepapp1:${DOCKER_TAG}
+        state: started
+        published_ports:
+          - 0.0.0.0:8080:8089
+ 
