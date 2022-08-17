@@ -2,7 +2,7 @@
 pipeline{
     agent any
     tools {
-        maven 'maven3'
+        maven 'maven'
     }
     environment {
         DOCKER_TAG = getVersion()
@@ -10,8 +10,8 @@ pipeline{
     stages{
         stage('SCM CHECKOUT'){
             steps{
-            git branch: 'main', 
-                url: 'https://github.com/dileep208/dileepdockeransible.git'
+            git branch: 'master', 
+                url: 'https://github.com/dileep208/dockeransible.git'
             }
         }
 
@@ -23,24 +23,24 @@ pipeline{
 
         stage('DOCKER BUILD'){
             steps{
-                sh "docker build . -t dileepugrangi/dileepapp:${DOCKER_TAG}"
+                sh "docker build . -t dileepugrangi/dileepapp1:${DOCKER_TAG}"
 
             }
         }
 
         stage('DOCKER PUSH'){
             steps{
-                withCredentials([string(credentialsId: 'dockerHubPwd', variable: 'dockerHubPwd')]) {
+                withCredentials([string(credentialsId: 'DOCKERHUB', variable: 'dockerHubPwd')]) {
                     sh "docker login -u dileepugrangi -p ${dockerHubPwd}"
             }
-            sh "docker push dileepugrangi/dileepapp:${DOCKER_TAG}"
+            sh "docker push dileepugrangi/dileepapp1:${DOCKER_TAG}"
                 
             }
         }
 
         stage('DOCKER DEPLOY'){
             steps{
-                ansiblePlaybook credentialsId: 'devserver', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'ansibledocker.yaml'
+                ansiblePlaybook credentialsId: 'JENKINS_LOCALHOST', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'dockeransible.yaml'
             }
         }
     }
