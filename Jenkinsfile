@@ -40,7 +40,7 @@ pipeline{
 
         stage('DOCKER DEPLOY'){
             steps{
-              sh 'ansible-playbook -i dev.inv -e DOCKER_TAG=6765e48 dockeransible.yaml'
+              sh 'ansible-playbook -i dev.inv -e DOCKER_TAG=${DOCKER_TAG} dockeransible.yaml'
 
             }
         }
