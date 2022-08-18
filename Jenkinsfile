@@ -33,7 +33,7 @@ pipeline{
                 withCredentials([string(credentialsId: 'DOCKER_SECRET', variable: 'dockerHubPwd')]) {
                     sh "docker login -u dileepugrangi -p ${dockerHubPwd}"
             }
-            sh "sudo docker push dileepugrangi/dileepapp1:${DOCKER_TAG}"
+            sh "docker push dileepugrangi/dileepapp1:${DOCKER_TAG}"
                 
             }
         }
