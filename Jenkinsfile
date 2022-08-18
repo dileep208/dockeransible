@@ -40,7 +40,8 @@ pipeline{
 
         stage('DOCKER DEPLOY'){
             steps{
-                ansiblePlaybook credentialsId: 'JENKINS_LOCALHOST', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'dockeransible.yaml'
+              sh 'ansible-playbook -i dev.inv -e DOCKER_TAG=${DOCKER_TAG} dockeransible.yaml'
+
             }
         }
     }
