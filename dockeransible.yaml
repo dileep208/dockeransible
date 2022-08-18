@@ -14,7 +14,7 @@
     - name: starting a docker container
       docker_container:
         name: dileepapp
-        image: dileepugrangi/dileepapp1:9f04bce
+        image: dileepugrangi/dileepapp1:${DOCKER_TAG}
         state: started
         published_ports:
           - 0.0.0.0:8089:8080
